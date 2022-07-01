@@ -1,6 +1,7 @@
 package com.example.rejestrator_treningow.training;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,9 +13,10 @@ public class TrainingController {
 
     private final TrainingServicee trainingServicee;
 
-    @GetMapping("")
-    public List<Training> getAll(){
+    @GetMapping("/list")
+    public List<Training> list(){
         return trainingServicee.findAll();
+
     }
 
     @PostMapping("/add")

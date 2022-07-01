@@ -21,9 +21,10 @@ public class Training {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate data;
+    private LocalDate date;
     private double distance;
-    private LocalTime time;
-    private double amountOfCaloriesBurned;
+    private String time;
+    private int amountOfCaloriesBurned;
     private String comments;
+    private double averageSpeed;
 }

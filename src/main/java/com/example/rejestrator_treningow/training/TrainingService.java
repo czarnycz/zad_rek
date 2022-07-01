@@ -1,20 +1,18 @@
 package com.example.rejestrator_treningow.training;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TrainingService implements TrainingServicee{
 
     final TrainingRepository trainingRepository;
-
-    public TrainingService(TrainingRepository trainingRepository) {
-        this.trainingRepository = trainingRepository;
-    }
+    final AverageSpeed averageSpeed;
 
     @Override
     public List<Training> findAll() {
@@ -23,14 +21,18 @@ public class TrainingService implements TrainingServicee{
 
     @Override
     public void add(Training training) {
+
         Training createdTraining = Training.builder()
-                .data(training.getData())
+                .date(training.getDate())
                 .distance(training.getDistance())
                 .time(training.getTime())
                 .amountOfCaloriesBurned(training.getAmountOfCaloriesBurned())
                 .comments(training.getComments())
                 .build();
+        createdTraining.setAverageSpeed(averageSpeed.calculateAverageOfSpeed(training.getTime(),training.getDistance()));
         trainingRepository.save(createdTraining);
+
+
     }
 
     @Override
@@ -43,17 +45,17 @@ public class TrainingService implements TrainingServicee{
         Optional<Training> trainingOptional = trainingRepository.findById(id);
         if(trainingOptional.isPresent()){
             Training training = trainingOptional.get();
-            training.setData(training.getData());
+            training.setDate(training.getDate());
             training.setDistance(training.getDistance());
             training.setTime(training.getTime());
             training.setAmountOfCaloriesBurned(training.getAmountOfCaloriesBurned());
             training.setComments(training.getComments());
+            training.setAverageSpeed(averageSpeed.calculateAverageOfSpeed(training.getTime(),training.getDistance()));
             trainingRepository.save(training);
         }else{
             throw new EntityNotFoundException("Training with ID: " + id + " not found");
         }
 
     }
-
 
 }
