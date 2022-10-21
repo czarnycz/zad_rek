@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,21 +42,20 @@ public class TrainingService implements TrainingServicee{
     }
 
     @Override
-    public void edit(Long id) {
-        Optional<Training> trainingOptional = trainingRepository.findById(id);
-        if(trainingOptional.isPresent()){
-            Training training = trainingOptional.get();
-            training.setDate(training.getDate());
-            training.setDistance(training.getDistance());
-            training.setTime(training.getTime());
-            training.setAmountOfCaloriesBurned(training.getAmountOfCaloriesBurned());
-            training.setComments(training.getComments());
-            training.setAverageSpeed(averageSpeed.calculateAverageOfSpeed(training.getTime(),training.getDistance()));
+    public void edit(Long id, Training updatedTraining) {
+        final Optional<Training> optionalTraining = trainingRepository.findById(id);
+        if(optionalTraining.isPresent()){
+            Training training = optionalTraining.get();
+            training.setDate(updatedTraining.getDate());
+            training.setDistance(updatedTraining.getDistance());
+            training.setTime(updatedTraining.getTime());
+            training.setAmountOfCaloriesBurned(updatedTraining.getAmountOfCaloriesBurned());
+            training.setComments(updatedTraining.getComments());
+
             trainingRepository.save(training);
         }else{
             throw new EntityNotFoundException("Training with ID: " + id + " not found");
         }
-
     }
 
 }

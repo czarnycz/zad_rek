@@ -6,5 +6,5 @@ public interface TrainingServicee {
     List<Training> findAll();
     void add(Training training);
     void delete(Long id);
-    void edit(Long id);
+    void edit(Long id, Training updatedTraining);
 }

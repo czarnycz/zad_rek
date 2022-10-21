@@ -30,7 +30,7 @@ public class TrainingController {
     }
 
     @PutMapping("/edit/{id}")
-    public void edit(@PathVariable Long id){
-        trainingServicee.edit(id);
+    public void edit(@PathVariable Long id, @RequestBody Training training){
+        trainingServicee.edit(id,training);
     }
 }
